@@ -1,4 +1,5 @@
 from pydantic import BaseSettings
+import os
 
 
 class Settings(BaseSettings):
@@ -9,7 +10,11 @@ class Settings(BaseSettings):
     database_hostname: str
 
     class Config:
-        env_file = "environments/development.env"
+        environment_path = os.environ.get("ENV_STATE")
+        if environment_path:
+            env_file = "environments/production.env"
+        else:
+            env_file = "environments/development.env"
 
 
 settings = Settings()
